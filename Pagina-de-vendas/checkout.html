@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - Finalizar Compra</title>
+    <link rel="stylesheet" href="checkout.css" />
+</head>
+
+<body>
+    <section class="checkout-container">
+        <h1>Finalizar Compra</h1>
+        <div class="resumo-produto">
+            <img src="img/produtos/1-Moringa-Leoífera.jpg" alt="Produto" />
+            <div>
+                <h2 id="nome-produto">Produto Incrível</h2>
+                <p id="preco-produto">R$ 31,90</p>
+            </div>
+        </div>
+
+        <form class="formulario-checkout" onsubmit="return finalizarCompra()">
+            <h2>Dados do Comprador</h2>
+
+            <label>
+                Nome Completo
+                <input type="text" name="nome" required />
+            </label>
+            <label>
+                E-mail
+                <input type="email" name="email" required />
+            </label>
+            <label>
+                Endereço
+                <input type="text" name="endereco" required />
+            </label>
+            <label>
+                Cidade
+                <input type="text" name="cidade" required />
+            </label>
+            <label>
+                Estado
+                <input type="text" name="estado" required />
+            </label>
+            <label>
+                CEP
+                <input type="text" name="cep" placeholder="00000-000" required />
+            </label>
+
+            <h2>Pagamento</h2>
+            <label>
+                Cartão de Crédito
+                <input type="text" name="cartao" placeholder="0000 0000 0000 0000" required />
+                <small id="bandeira">
+                    <img src="" id="bandeira-img" style="height: 20px; display: none;" alt="bandeira do cartão" />
+                </small>
+            </label>
+            <label>
+                Validade
+                <input type="text" name="validade" placeholder="MM/AA" required />
+            </label>
+            <label>
+                CVV
+                <input type="text" name="cvv" placeholder="CVV" required />
+            </label>
+            <button type="submit" class="btn-finalizar">Finalizar Compra</button>
+        </form>
+    </section>
+
+    <script>
+        // Dados do produto via query string
+        const params = new URLSearchParams(window.location.search);
+        const nomeProduto = params.get("produto") || "Produto Incrível";
+        const precoProduto = params.get("preco") || "199.90";
+        document.getElementById("nome-produto").textContent = nomeProduto;
+        document.getElementById("preco-produto").textContent = `R$ ${precoProduto}`;
+
+        // Referências dos inputs
+        const inputCartao = document.querySelector('input[name="cartao"]');
+        const inputValidade = document.querySelector('input[name="validade"]');
+        const inputCVV = document.querySelector('input[name="cvv"]');
+        const inputCEP = document.querySelector('input[name="cep"]');
+        const bandeiraImg = document.getElementById("bandeira-img");
+
+        // Detectar bandeira
+        function detectarBandeira(numero) {
+            const bandeiras = {
+                visa: /^4/,
+                mastercard: /^5[1-5]/,
+                elo: /^(636368|438935|504175|451416|509048|509067|509049|509069|509050|509074|509068|509045|509051|509046|509066|509047|509042|509052|509043|509064|509040|509044|36297|5067|4576|4011)/,
+                amex: /^3[47]/,
+                diners: /^3(?:0[0-5]|[68])/,
+                discover: /^6(?:011|5)/,
+                hipercard: /^(38|60)/
+            };
+
+            for (const [nome, regex] of Object.entries(bandeiras)) {
+                if (regex.test(numero)) return nome.toUpperCase();
+            }
+            return "";
+        }
+
+        // Máscara Cartão + Detecção de bandeira
+        inputCartao.addEventListener("input", () => {
+  let value = inputCartao.value.replace(/\D/g, "").slice(0, 16); // Limita a 16 dígitos numéricos
+  value = value.replace(/(\d{4})(?=\d)/g, "$1 "); // Adiciona espaço a cada 4 números
+  inputCartao.value = value.trim();
+
+  const numeroLimpo = value.replace(/\s/g, ""); // Remove espaços
+  const nomeBandeira = detectarBandeira(numeroLimpo);
+
+  if (nomeBandeira) {
+    bandeiraImg.src = `img/bandeiras/${nomeBandeira.toLowerCase()}.png`; // Caminho correto da imagem
+    bandeiraImg.style.display = "inline-block";
+    bandeiraImg.alt = nomeBandeira;
+  } else {
+    bandeiraImg.style.display = "none";
+    bandeiraImg.src = "";
+    bandeiraImg.alt = "";
+  }
+});
+
+
+        // Máscara para validade
+        inputValidade.addEventListener("input", () => {
+            let value = inputValidade.value.replace(/\D/g, "").slice(0, 4);
+            if (value.length >= 3) {
+                value = value.replace(/(\d{2})(\d{1,2})/, "$1/$2");
+            }
+            inputValidade.value = value;
+        });
+
+        // Máscara para CVV
+        inputCVV.addEventListener("input", () => {
+            inputCVV.value = inputCVV.value.replace(/\D/g, "").slice(0, 3);
+        });
+
+        // Máscara para CEP
+        inputCEP.addEventListener("input", () => {
+            let value = inputCEP.value.replace(/\D/g, "").slice(0, 8);
+            if (value.length > 5) {
+                value = value.replace(/(\d{5})(\d{1,3})/, "$1-$2");
+            }
+            inputCEP.value = value;
+        });
+
+        // Validação geral
+        function finalizarCompra() {
+            const cartao = inputCartao.value.replace(/\s/g, "");
+            const validade = inputValidade.value;
+            const cvv = inputCVV.value;
+            const cep = inputCEP.value.replace(/\D/g, "");
+
+            if (cartao.length !== 16) {
+                alert("Número do cartão inválido. Insira 16 dígitos.");
+                return false;
+            }
+
+            if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(validade)) {
+                alert("Data de validade inválida. Use o formato MM/AA.");
+                return false;
+            }
+
+            if (cvv.length !== 3) {
+                alert("CVV inválido. Deve conter 3 dígitos.");
+                return false;
+            }
+
+            if (cep.length !== 8) {
+                alert("CEP inválido. Deve conter 8 dígitos.");
+                return false;
+            }
+
+            // Tudo certo
+            setTimeout(() => {
+                window.location.href = "obrigado.html";
+            }, 500);
+
+            return false;
+        }
+    </script>
+</body>
+
+</html>
