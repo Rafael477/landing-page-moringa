@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Página de Vendas Simples</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+<body>
+  <section class="venda-container">
+    <h1>Produto Incrível</h1>
+
+    <!-- Swiper Carrossel -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="img/produtos/1-Moringa-Leoífera.jpg" alt="Produto 1" />
+        </div>
+        <div class="swiper-slide">
+          <img src="img/produtos/2-Moringa-beneficios.jpg" alt="Produto 2" />
+        </div>
+        <div class="swiper-slide">
+          <img src="img/produtos/3-Tabela-nutricional-moringa.jpg" alt="Produto 3" />
+        </div>
+      </div>
+      <!-- Controles -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-pagination"></div>
+    </div>
+
+    <p class="descricao">
+      Aproveite esta oferta especial! <br />
+      Produto incrível vai transformar o seu dia a dia. Com qualidade garantida e entrega rápida.
+    </p>
+    <ul class="beneficios">
+      <li> Qualidade Premium</li>
+      <li> Entrega Rápida</li>
+      <li> Suporte Especializado</li>
+    </ul>
+    <div class="preco">
+      <span class="preco-antigo">R$ 39,90</span>
+      <span class="preco-atual">R$ 31,90</span>
+    </div>
+    <a href="checkout.html?produto=Produto+Incrível&preco=31.90" class="btn-comprar">Comprar Agora</a>
+  </section>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    const swiper = new Swiper(".mySwiper", {
+      loop: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+    });
+  </script>
+</body>
+</html>
