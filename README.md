@@ -3,7 +3,7 @@
 ![Status](https://img.shields.io/badge/status-prot%C3%B3tipo-orange) ![Stack](https://img.shields.io/badge/stack-HTML%20%2B%20CSS%20%2B%20JavaScript-blue)
 
 ## Demo
-Acesse a versão publicada: [Página de Vendas](https://rafael477.github.io/Pagina-de-vendas/)
+Acesse a versão publicada: [Landing Page Moringa](https://rafael477.github.io/landing-page-moringa/)
 
 ## Descrição
 Página de vendas para produto com carrossel de imagens, preço promocional e fluxo de checkout em HTML, CSS e JavaScript.
