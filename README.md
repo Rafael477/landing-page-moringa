@@ -2,6 +2,9 @@
 
 ![Status](https://img.shields.io/badge/status-prot%C3%B3tipo-orange) ![Stack](https://img.shields.io/badge/stack-HTML%20%2B%20CSS%20%2B%20JavaScript-blue)
 
+## Demo
+Acesse a versão publicada: [Página de Vendas](https://rafael477.github.io/Pagina-de-vendas/)
+
 ## Descrição
 Página de vendas para produto com carrossel de imagens, preço promocional e fluxo de checkout em HTML, CSS e JavaScript.
 
@@ -45,7 +48,6 @@ Este projeto não utiliza variáveis de ambiente.
 Não há scripts npm neste projeto.
 
 ## Melhorias futuras
-- Ajustar o preço enviado no link do checkout para bater com o preço exibido.
 - Adicionar validações e feedback visual no formulário.
 - Melhorar responsividade e acessibilidade.
 - Separar scripts longos em arquivos JS externos.
